@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
 /**
  * WOPI HOST mian controller
@@ -48,7 +50,29 @@ public class WopiHostController {
      * and general information about the capabilities that the WOPI host has on the file.
      */
     @GetMapping("/files/{name}")
-    public ResponseEntity<FileInfo> checkFileInfo(@PathVariable(name = "name") String name) throws Exception {
+    public ResponseEntity<FileInfo> checkFileInfo(@PathVariable(name = "name") String name, HttpServletRequest request) throws Exception {
+        Enumeration<String> headerNames = request.getHeaderNames();
+        if (headerNames != null) {
+            while (headerNames.hasMoreElements()) {
+                System.out.println("Header: " + request.getHeader(headerNames.nextElement()));
+            }
+        }
+
+        for (final Cookie cookie : request.getCookies()) {
+            System.out.println("COok: ");
+            System.out.println(cookie.getName());
+        }
+
+
+
+        Enumeration<String> attrs = request.getAttributeNames();
+        if (attrs!= null) {
+            while (attrs.hasMoreElements()) {
+                System.out.println("attr: " + request.getAttribute(attrs.nextElement()));
+            }
+        }
+
+
         return wopiHostService.getFileInfo(name);
     }
 
