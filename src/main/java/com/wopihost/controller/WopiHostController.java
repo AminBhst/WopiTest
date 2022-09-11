@@ -58,9 +58,11 @@ public class WopiHostController {
             }
         }
 
-        for (final Cookie cookie : request.getCookies()) {
-            System.out.println("COok: ");
-            System.out.println(cookie.getName());
+        if (request.getCookies() != null) {
+            for (final Cookie cookie : request.getCookies()) {
+                System.out.println("COok: ");
+                System.out.println(cookie.getName());
+            }
         }
 
 
